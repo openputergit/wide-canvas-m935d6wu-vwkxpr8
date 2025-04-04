@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkiFy - Smart Parking System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .parking-slot {
+            transition: all 0.3s ease;
+        }
+        .parking-slot:hover {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+        .shine {
+            background: linear-gradient(120deg, #000000 0%, #1a1a1a 100%);
+        }
+    </style>
+</head>
+<body class="shine min-h-screen text-white">
+    <!-- Navbar -->
+    <nav class="p-4 shine shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <img src="https://firebasestorage.googleapis.com/v0/b/widecanvas-d0dd4.appspot.com/o/logos%2Fcolor.png?alt=media&token=8fc581ee-fe15-40c2-bcb8-315e865dbdcd" alt="ParkiFy Logo" class="h-12">
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-pink-400 transition">Home</a>
+                <a href="#" class="hover:text-yellow-400 transition">About</a>
+                <a href="#" class="hover:text-green-400 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="container mx-auto py-16 px-4 text-center">
+        <h1 class="text-5xl md:text-7xl font-bold mb-6 gradient-text">ParkiFy</h1>
+        <p class="text-xl md:text-2xl mb-8 text-gray-300">Smarter Parking, Smoother Cities</p>
+        <button class="bg-gradient-to-r from-pink-500 to-purple-500 px-8 py-3 rounded-full text-white font-bold hover:opacity-90 transition animate-[pulse_2s_ease-in-out_infinite]">
+            View Availability
+        </button>
+    </header>
+
+    <!-- Dashboard -->
+    <section class="container mx-auto p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Status Cards -->
+        <div class="bg-gray-900 p-6 rounded-xl shadow-xl">
+            <h3 class="text-xl mb-4">Parking Status</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <p class="text-green-400">Available</p>
+                    <p class="text-3xl font-bold" id="available-slots">24</p>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <p class="text-red-400">Occupied</p>
+                    <p class="text-3xl font-bold" id="occupied-slots">16</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gate Status -->
+        <div class="bg-gray-900 p-6 rounded-xl shadow-xl">
+            <h3 class="text-xl mb-4">Gate Status</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <p>Entry Gate</p>
+                    <p class="text-green-400" id="entry-status">Open</p>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <p>Exit Gate</p>
+                    <p class="text-red-400" id="exit-status">Closed</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parking Map -->
+        <div class="bg-gray-900 p-6 rounded-xl shadow-xl col-span-1 md:col-span-2 lg:col-span-1">
+            <h3 class="text-xl mb-4">Parking Map</h3>
+            <div class="grid grid-cols-4 gap-2" id="parking-map">
+                <!-- Parking slots will be generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-16 bg-gray-900 py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-xl mb-4">Contact Us</h4>
+                    <p>Email: info@parkify.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+                <div>
+                    <h4 class="text-xl mb-4">Follow Us</h4>
+                    <div class="flex gap-4">
+                        <a href="#" class="text-2xl hover:text-pink-400"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-2xl hover:text-yellow-400"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-2xl hover:text-green-400"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-xl mb-4">Development</h4>
+                    <a href="https://github.com/parkify" class="flex items-center gap-2 hover:text-gray-300">
+                        <i class="bi bi-github"></i>
+                        <span>GitHub Repository</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Generate random parking slot status
+        function generateParkingMap() {
+            const map = document.getElementById('parking-map');
+            for (let i = 0; i < 16; i++) {
+                const isOccupied = Math.random() > 0.5;
+                const slot = document.createElement('div');
+                slot.className = `parking-slot p-2 rounded ${isOccupied ? 'bg-red-500' : 'bg-green-500'}`;
+                slot.innerHTML = `<p class="text-center text-sm">P${i + 1}</p>`;
+                map.appendChild(slot);
+            }
+        }
+
+        // Update status randomly every 5 seconds
+        function updateStatus() {
+            const availableSlots = Math.floor(Math.random() * 20) + 10;
+            const occupiedSlots = 40 - availableSlots;
+            document.getElementById('available-slots').textContent = availableSlots;
+            document.getElementById('occupied-slots').textContent = occupiedSlots;
+
+            document.getElementById('entry-status').textContent = Math.random() > 0.5 ? 'Open' : 'Closed';
+            document.getElementById('entry-status').className = document.getElementById('entry-status').textContent === 'Open' ? 'text-green-400' : 'text-red-400';
+
+            document.getElementById('exit-status').textContent = Math.random() > 0.5 ? 'Open' : 'Closed';
+            document.getElementById('exit-status').className = document.getElementById('exit-status').textContent === 'Open' ? 'text-green-400' : 'text-red-400';
+        }
+
+        // Initialize
+        generateParkingMap();
+        setInterval(updateStatus, 5000);
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
